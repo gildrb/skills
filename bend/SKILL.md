@@ -52,14 +52,16 @@ Use the [controller](references/controller.md) for scope, workspace isolation,
 resumption, evidence invalidation, retries, and cancellation. It applies to both
 workflows. Read the relevant workflow before taking its first action:
 
-- **Ordinary Bend task:** execute the implementation/proof cycle below. Do not
-  activate an autonomous research session or invent publication authority.
+- **Ordinary Bend task, including a one-off optimization:** execute the
+  implementation/proof cycle below and measure when requested. Do not activate
+  an autonomous research session or invent publication authority.
 - **Explicit autoImplement:** read [autoImplement](references/autoimplement.md).
   Execute the selected existing plan end to end. Do not invent an initial plan;
   an absent or materially ambiguous plan blocks this mode, not ordinary proving.
-- **Optimization / autoResearch:** read [autoResearch](references/research.md).
-  Establish or resume an objective, verified baseline, measurement policy, and
-  durable experiment history. Do not require a prewritten implementation plan.
+- **Explicit autoResearch or request to optimize in a loop:** read
+  [autoResearch](references/research.md). Establish or resume an objective, verified
+  baseline, measurement policy, and durable experiment history. Do not require a
+  prewritten implementation plan.
 
 Existing compatible Pi tools may execute these stages. Read the [Pi adapters](references/pi-adapters.md)
 before delegating. Otherwise perform the stages directly with available tools.

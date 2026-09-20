@@ -6,6 +6,13 @@ manually duplicating their controller. Source-level interface examples below are
 leads, not hardcoded promises about a future extension. Never install a package,
 change agent settings, bind a shortcut, or select a model merely to use this skill.
 
+Choose the execution owner during capability preflight, before starting its run.
+A native-stage failure does not authorize silently replacing that stage or
+starting a second controller. An explicit later owner switch must first stop or
+settle owned work, preserve native history, reconcile the actual source and pending
+result, and establish a compatible fresh baseline. Never import an unvalidated
+portable log into a native parser or erase failures during that handoff.
+
 ## Pi Workflows autoimplement
 
 Read the active workflow schema and upstream autoimplement instructions. At top
@@ -32,16 +39,21 @@ Build input from established facts:
 - `concurrency`: obey explicit user limits and host/resource constraints. No
   overlapping mutations of the same candidate.
 
-Supply `verificationChecks` only when the final absolute working path and every
-safe command record are known. Otherwise omit it and use the workflow planner.
-For the current upstream contract each record has `id`, `command`, string `args`,
-exact `cwd`, positive `timeoutMs`/`maxOutputChars`, boolean `readOnly`, `baseEligible`,
+Supply `verificationChecks` only when a genuine matching `preparedWorkspace`
+receipt confirms the final absolute work path AND every safe command record is
+known. Otherwise omit it and use the workflow planner. Knowing a path alone is
+not a preparation receipt. In the inspected schema each record has `id`, `command`,
+a string array `args`, exact `cwd`, positive `timeoutMs`/`maxOutputChars`, boolean
+`readOnly`, `baseEligible`,
 `changedFileScope`, and `findingFormat` (`text` or `json`). Derive all values from
 actual tools. `baseEligible` requires a genuinely read-only command that works
 unchanged in an isolated base checkout. Do not include Git, GitHub CLI, shell
 wrappers, mutation, publication, merge, release, or deployment commands in that
 field. Provide `verificationUntested` only with supplied checks, using actual
 untested requirements. Never label commands read-only just to fit the schema.
+An optional `mechanicalFix` needs its own command, string-array args, repository-
+relative files, positive timeout/output bounds, and non-empty expected diff; omit
+it unless all required values and safe side effects are established.
 
 Pass the Bend proof protocol, expected law inventory, active-toolchain discovery,
 full-diagnostic requirement, and forbidden proof bypasses in the plan/constraints.
@@ -70,29 +82,55 @@ Initialization describes name, `metric_name`, unit, and `direction` (`lower` or
 without erasing its baseline or budget. Configuration fields such as `workingDir`
 and `maxIterations` must match the installed schema and authorized path/budget.
 No "unlimited" default overrides the current task's finite execution allowance.
+Distinguish the session directory that owns `.auto/config.json` from the resolved
+`workingDir` used for experiment files, commands, and Git. Resolve relative paths
+against the session directory as the installed runtime specifies. Verify that
+resolved paths remain within task authority; configuration cannot expand scope.
+Honor installed resume/failure guards without copying their numeric constants or
+reinitializing segments to bypass them.
 
 `run_experiment` takes the actual measurement command and bounded benchmark/check
 timeouts. It executes `.auto/checks.sh` after a passing benchmark. Make that file
 mandatory for Bend and preserve its full logs; proof checks are not timed as the
 performance metric. Establish a fresh candidate proof before measurement as well.
 Confirm source/evidence identity after benchmark and hooks before retention.
+Require positive evidence that the current attempt actually ran its checks, such
+as `checksPass: true` under the inspected schema, AND the complete clean proof
+receipt. A missing check script, null check result, stale cached flag, or a passing
+benchmark alone is not sufficient. Any change to source, proof inputs, toolchain,
+or scoring controls between run and log invalidates affected results. Recheck and
+remeasure before retention rather than reusing the runner's last passing flag.
 
 `log_experiment` records the result and may auto-commit a `keep` or auto-revert
 `discard`, `crash`, or `checks_failed`. Before any call, confirm those effects are
 authorized and confined to the clean owned candidate workspace. Never use it in
 a checkout containing unrelated tracked/untracked user changes. Otherwise record
-the attempt portably and perform only narrowly authorized retention/rollback.
+the blocked attempt without invoking those side effects, then reconcile before
+any explicit switch to portable retention/rollback.
 Do not add a duplicate manual commit/revert around a tool that already owns it.
 
 Supply actual commit identity as the schema requires, finite metric, status,
 description, secondary `metrics`, and useful `asi`. Include proof receipt, source
 fingerprint, failure details, and learned lesson in `asi` or referenced evidence.
+For failed attempts record `rollback_reason` and `next_action_hint`. Use
+`revisits_run` only when an earlier rejection reason changed; explain the new
+evidence rather than repeatedly trying the same discarded idea.
 If the API requires a crash placeholder, flag its absence of measurement and do
 not use it as a score. Inspect complete logs despite abbreviated tool output.
 Validate the retention path with disposable controls for invalid evidence, an
 omitted required law, an unsafe qualification, and a stale source receipt. These
 are integration controls, not a proof of checker soundness. Only call `keep` after
-all Bend proof/validation and candidate-review conditions hold. The native tool refusing `checks_failed` is not the whole acceptance gate.
+all Bend proof/validation and candidate-review conditions hold. The native tool
+refusing `checks_failed` is not the whole acceptance gate.
+
+After logging, inspect the complete tool result, persisted record, actual commit,
+and working tree. Upstream may log a keep even if Git commit fails, and a rollback
+message does not establish successful restoration. Do not advance the accepted
+baseline until the intended contents are retained and associated evidence matches.
+A logging/commit/rollback error blocks advancement; preserve the record and repair
+bookkeeping within authority. Do not log the same experiment again merely to retry
+a commit. Preserve failed-candidate evidence before rollback and inspect any
+post-log hook changes before the next attempt.
 
 Preserve native `.auto/log.jsonl` records and let native tools write their own
 schema. Do not splice a portable record format into the extension's file. Never
