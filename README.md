@@ -6,18 +6,25 @@ Reusable agent skills in the [Agent Skills format](https://agentskills.io/specif
 
 [Read the skill](bend/SKILL.md).
 
-The agent reads the active `bend guide`, derives syntax and verification behavior
-from that executable, implements the requested behavior, writes formal proofs,
-and runs the checker before reporting completion. It does not pin a Bend release.
+The agent reads the complete active `bend guide`, learns that executable's syntax
+and verification behavior, implements the requested behavior, constructs formal
+proofs, and runs the checker. No Bend release is hardcoded.
 
-`autoImplement`: implement, prove, inspect diagnostics, repair, and review.
+**autoImplement:** recover the selected plan, implement and prove, validate,
+review/repair, address PR comments, inspect CI, and finish in the same PR.
 
-`autoResearch`: keep the public contract fixed while proposing, proving,
-measuring, and reviewing optimization candidates.
+**autoResearch:** establish a verified baseline and persistent `.auto/` session,
+try a coherent change, prove and measure it, review, log learning, keep/discard,
+and repeat within the authorized budget. Finish through the same delivery stages.
 
-Keep the `bend` directory and its references together when loading it into an
-agent. The workflows do not require a particular agent vendor or research runner.
-They are instructions, not a substitute for an independently protected verifier.
+The workflows adapt Pi Workflows and pi-autoresearch. Compatible native facilities
+are used when available; other agents execute the stages directly. No particular
+agent, model, runner, or package manager is required. Research cannot retain an
+unproved speedup. PR publication does not grant merge or deployment permission.
 
-[Sources](bend/references/sources.md) document the design's provenance.
-[Evaluation scenarios](evals/bend.md) describe how to check agent behavior.
+Keep the entire `bend` directory together, including references, templates, and
+[third-party MIT notices](bend/THIRD_PARTY_NOTICES.md). These are agent instructions,
+not an executable workflow engine or an independently protected verifier.
+
+[Sources and adaptation details](bend/references/sources.md).
+[Evaluation scenarios](evals/bend.md), not claimed live test results.

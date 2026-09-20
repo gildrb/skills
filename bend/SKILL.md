@@ -1,24 +1,24 @@
 ---
 name: bend
-description: Implement, repair, refactor, and optimize Bend programs with machine-checked formal proofs. Use for Bend or .bend code, LAWS.bend, PROOF.bend, law-driven development, proof failures, or proof-preserving CPU/GPU optimization. Reads the installed bend guide before coding and runs implementation/proof and research/review loops until the requested contract is checked or a concrete blocker is reported.
+description: Implement, repair, refactor, and optimize Bend programs with machine-checked formal proofs. Use for Bend or .bend code, LAWS.bend, PROOF.bend, law-driven development, proof failures, or proof-preserving CPU/GPU optimization. Read the installed bend guide, construct and check proofs, and use resumable implementation, experiment, review, and delivery loops. Explicit autoImplement executes an existing plan; autoResearch runs a proof-gated optimization session.
 ---
 
 # Bend: implement, prove, verify
 
-Execute the task. Do not substitute a plan, suggested commands, pseudocode, tests,
-or a proof narrative for the requested implementation and checked proof.
+Execute the requested work. A plan, suggested command, compiling program, finite
+test suite, or proof narrative is not a completed implementation and proof.
 
-`complete => requested contract proved AND required validation passed`
+`complete => contract proved AND required validation passed AND delivery checked`
 
 `tests passed != universal proof`
 
 `source proof != verified compiler, external effects, or hardware`
 
-## 1. Read the installed language before editing
+## 1. Read the active language before editing
 
 Resolve the project's active `bend` in its existing execution environment. Use
 that same executable and environment for documentation, proofs, and builds.
-Run these commands and read their actual output:
+Execute and read the actual output:
 
 ```sh
 bend guide
@@ -26,124 +26,137 @@ bend --help
 bend --version
 ```
 
-Read the complete guide, including output omitted by tool truncation. Do not
-merely invoke it, skim a search excerpt, or substitute remembered syntax or a
-web copy. If an auxiliary command differs, discover its equivalent from the
-installed help. Record the executable identity, reported version, and relevant
-capabilities. Do not require a particular release number.
+Read the complete guide, retrieving any truncated output. Invocation alone is
+not reading. Do not substitute a web copy or remembered syntax. Discover an
+auxiliary command's equivalent from local help if it differs. Record executable
+identity, reported version, and relevant capabilities, not a required release.
 
-The local guide and local library definitions govern language syntax, proof
-construction, supported targets, and CLI behavior. Use the documented library
-inspection command, such as `bend base`, before relying on unfamiliar APIs.
-Read locally documented parallelism or effects guides when relevant. Online
-examples are leads to check against this executable, not its specification.
+The local guide and library definitions govern syntax, proof construction,
+targets, and checker behavior. Inspect unfamiliar APIs with the documented
+library command, such as `bend base`. Read locally documented parallelism or
+effects guides when relevant. Treat external examples as leads to check locally.
 
-If the guide or a needed proof capability cannot be obtained, report the exact
-failure. Never silently change the toolchain, substitute another prover, or
-claim an unsupported proof capability. A toolchain change invalidates earlier
-capability checks and requires re-reading the guide and rechecking the work.
+If documentation or a necessary proof capability cannot be obtained, report the
+exact failure. Do not silently switch toolchains or provers. A changed executable,
+library, or execution environment invalidates earlier capability and proof
+receipts: read the active guide and revalidate before continuing.
 
-## 2. Establish the contract and baseline
+## 2. Recover the task, authority, and contract
 
-Read project instructions, the requested behavior, relevant implementation and
-callers, existing laws and proofs, and any objective/review policy. Preserve
-unrelated user changes. Identify the actual public entry points and target.
+Read repository instructions, relevant callers and implementation, laws/proofs,
+canonical plans, objective/review policies, and existing session records. Preserve
+unrelated user edits. Identify the public entry points, target, task branch, and
+existing PR. Continue that PR, not a replacement branch or a second PR.
 
-Record which requirements already have laws and which need formalization.
-When asked to formalize requirements, write their faithful laws and proofs;
-do not stop at proposing that somebody else should write them. Distinguish
-explicit requirements from additional assumptions. A material ambiguity is an
-unresolved specification issue, not permission to choose an easier contract.
+Use the [controller](references/controller.md) for scope, workspace isolation,
+resumption, evidence invalidation, retries, and cancellation. It applies to both
+workflows. Read the relevant workflow before taking its first action:
 
-Separate protected public claims and specification meanings from editable code
-and supporting proofs. Protect valid-input conditions, independent reference
-semantics, observable results, and acceptance controls. Do not freeze the entire
-implementation merely because the laws import it. Supporting lemma statements,
-proof bodies, internal representations, and algorithms may change when the
-unchanged public contract is still proved. Existing project restrictions prevail.
+- **Ordinary Bend task:** execute the implementation/proof cycle below. Do not
+  activate an autonomous research session or invent publication authority.
+- **Explicit autoImplement:** read [autoImplement](references/autoimplement.md).
+  Execute the selected existing plan end to end. Do not invent an initial plan;
+  an absent or materially ambiguous plan blocks this mode, not ordinary proving.
+- **Optimization / autoResearch:** read [autoResearch](references/research.md).
+  Establish or resume an objective, verified baseline, measurement policy, and
+  durable experiment history. Do not require a prewritten implementation plan.
 
-Do not weaken a public law, add assumptions to it, shrink its domain, change a
-protected predicate, omit a required law, or redirect verification to easier
-code without explicit authorization. Keep a record of the expected law files,
-public theorem names, and their intended implementation targets.
+Existing compatible Pi tools may execute these stages. Read the [Pi adapters](references/pi-adapters.md)
+before delegating. Otherwise perform the stages directly with available tools.
+Never assume a workflow name is a CLI command or silently start two controllers.
+No agent vendor, model, or research runner is a dependency of this skill.
 
-Run the existing proof gate before changes. Record a pre-existing failure
-rather than treating it as permission to bypass verification. For a new proof
-setup, establish the gate using [proving](references/proving.md).
+Map requirements to laws. When asked to formalize them, write faithful laws and
+their proofs rather than merely recommending formalization. Distinguish explicit
+requirements from inferred assumptions. A material ambiguity is an unresolved
+specification issue, not permission to choose an easier contract.
 
-## 3. autoImplement: implement and prove
+Separate protected public claims and specification meanings from editable
+implementation and supporting proofs. Protect valid-input conditions, independent
+reference semantics, observable results, expected theorem inventory, and acceptance
+controls. Do not freeze every imported implementation detail. Internal algorithms,
+representations, lemma statements, and proof bodies may change within scope if
+the unchanged public contract is proved. Project restrictions still prevail.
 
-This is the default workflow, not an external command. Read
-[proving](references/proving.md) before writing or changing laws or proofs.
+Never weaken a public law, strengthen its premises, shrink its domain, redefine a
+protected predicate, omit a required law, or redirect verification to easier code
+without explicit authorization. Plan approval, a review verdict, a timeout, and
+an improved metric do not independently authorize specification changes.
 
-1. Identify the next unsatisfied requirement and its exact proof obligation.
-   State the intended implementation-to-specification relationship. For an
-   optimization, identify the unchanged theorem the fast path must satisfy.
-2. Make one coherent implementation change and construct its actual proof.
-   Split a difficult theorem into reusable lemmas; check those incrementally.
-   A coherent change may replace an algorithm and its proof architecture.
-3. Run the installed checker on the changed proof and then the complete public
-   contract. In a project using the documented LAWS/PROOF convention, run
-   `bend PROOF.bend` from the correct project directory. Otherwise use the
-   installed guide's equivalent and the project's required proof entry points.
-4. Read diagnostics. Distinguish a false claim, missing lemma, scope/ownership
-   error, termination issue, resource limit, or toolchain defect. Repair the
-   implementation or proof without changing the required meaning. Revisit the
-   guide and actual definitions instead of repeatedly guessing syntax.
-5. Review the exact candidate using [review](references/review.md). Recheck
-   after any repair. Continue until every requested obligation is discharged,
-   or report a concrete remaining goal, counterexample, or execution blocker.
+Run the existing proof gate before editing. Record pre-existing failures rather
+than bypassing them. Establish a new gate using [proving](references/proving.md).
 
-Do the proving yourself. A compiling program, an open law, a local smoke proof,
-a bounded collection of examples, or a natural-language argument does not
-complete a general correctness task. No new arbitrary axioms, unsafe escape
-hatches, circular evidence, trusted-definition overrides, or final proof holes.
-Audit transitive proof dependencies and declare existing trusted primitives.
+## 3. Implement and prove, not merely type-check
 
-Use available read-only reviewer/subagent facilities for a separate review.
-Otherwise perform a separate self-review and label it honestly. Do not fabricate
-an independent review. If independent approval is required by the project, its
-absence blocks acceptance. Subagents must use the same recorded toolchain,
-contract, and evidence requirements; concurrency must not race source edits.
+Read [proving](references/proving.md) before changing laws or proofs.
 
-## 4. autoResearch: only for an optimization objective
+1. Select the next requirement and its exact proof obligation. State the relation
+   between the implementation and specification, including representation changes.
+2. Implement a coherent change and construct its proof. Decompose difficult goals
+   into reusable lemmas and check incrementally. A coherent change may replace an
+   algorithm and its proof architecture; diff size is not a correctness criterion.
+3. Run the installed checker on completed lemmas, then every required public law.
+   Under the locally documented LAWS/PROOF convention, run `bend PROOF.bend` in
+   the correct directory. Otherwise use the documented equivalent and all project
+   proof entry points. Audit the import closure and expected theorem inventory.
+4. Read complete diagnostics. Distinguish a false claim, missing lemma, type or
+   ownership error, termination issue, resource limit, and toolchain defect.
+   Repair the code or proof. Re-read actual definitions instead of guessing syntax.
+   Evidence that invalidates the plan returns to the controller's replan stage;
+   an ordinary implementation bug stays in the repair loop.
+5. Run required local/backend validation and [review](references/review.md).
+   Recheck after repairs. Continue until the obligations are discharged or a
+   concrete goal, counterexample, resource limit, or capability remains unresolved.
 
-Read [research](references/research.md). Run the same implementation/proof loop
-for each candidate, then measure and review it. Keep a fresh verified baseline,
-an explicit performance hypothesis, unchanged scoring rules, raw observations,
-and a record of rejected attempts. Preserve only accepted candidates.
+Do the formal proving yourself. No arbitrary new axioms, unsafe escape hatches,
+circular evidence, trusted-definition overrides, or final holes. Audit transitive
+proof dependencies and disclose existing trusted primitives. Open laws and finite
+examples cannot substitute for a general theorem.
 
-`retain => contract intact AND proof checked AND required validation passed`
+## 4. Retention and delivery are separate gates
 
-`retain optimization => retain AND measured gain meets the agreed criterion`
+`keep experiment => contract intact AND proof checked AND validation passed`
 
-These are workflow labels, not dependencies on a particular agent, runner,
-model, package manager, or orchestration service. Follow an existing compatible
-research harness when supplied; do not assume its commands or install one.
+`keep optimization => keep experiment AND predeclared metric policy satisfied`
 
-## 5. Final acceptance and evidence
+A locally retained experiment is not yet a reviewed, delivered PR. Both workflows
+use the controller's final review, comment, and CI stages before completion.
+Preserve unsuccessful attempts and learning, not failed code in the accepted path.
 
-Read [review](references/review.md) and check the final source snapshot, not an
-earlier candidate. Verification must cover every required theorem and the
-implementation actually delivered or measured. Inspect exit status AND the
-installed checker's complete diagnostics. Do not hardcode a success banner or
-accept exit zero alone. Missing output, timeouts, unsafe qualifications,
-unresolved obligations, stale evidence, or an incomplete law inventory cannot
-establish successful verification.
+Use a distinct read-only reviewer when available. Otherwise label a separate
+self-review honestly. If a particular reviewer or independent approval is required,
+its absence blocks acceptance. No fabricated reviewer receipts or fallback to a
+different reviewer when the required configuration is unavailable.
 
-Do not modify the checker, library, dependencies, protected specification,
-benchmark, or verification controls to obtain acceptance. Do not commit, push,
-merge, deploy, delete user work, or change access controls unless the task
-separately authorizes it. Work within the task's available execution budget;
-do not start an unbounded or unattended research loop.
+Check process status AND full checker diagnostics using the active version's
+semantics. Do not hardcode a success banner or trust exit zero alone. Missing
+laws, unsafe qualifications, incomplete/truncated evidence, timeouts, stale logs,
+or application output resembling a checker verdict cannot establish verification.
 
-Return a short evidence report containing the actual version/executable,
-changed implementation and proof files, public theorems checked, exact commands
-and outcomes, reviewed source identity, and remaining assumptions or blockers.
-Identify self-review versus independent review. Separate source-level proof,
-backend execution checks, and performance measurements. If only one was
-established, say so. Never report an unfinished proof as complete.
+Do not change the checker, dependencies, specification, benchmark, or acceptance
+controls to obtain a pass. Commit, push, comment, merge, release, and deployment
+are distinct scoped actions. A PR request permits its normal scoped updates;
+it does not authorize merging, deploying, unrelated repositories, or policy changes.
 
-This skill directs agent behavior. A protected external verifier can enforce
-acceptance; editable instructions alone cannot enforce an agent's compliance.
-See [sources](references/sources.md) for provenance, not runtime instructions.
+## 5. Finish with current evidence
+
+Read [review](references/review.md) on the delivered snapshot. Complete authorized
+publication in the same PR; inspect current-head reviews/comments and required CI.
+For documentation-only work, relevant local checks suffice unless repository
+policy requires more. Never invent green CI when no checks exist or failures remain.
+
+Report the active Bend identity, changed implementation/proofs, theorem coverage,
+exact executed commands and outcomes, final source identity, review mode and
+remaining findings, performance evidence when applicable, and any blockers.
+For a PR task, include its link and post the same evidence summary there when
+commenting is authorized. State untested backend, staging, or production behavior.
+
+Work autonomously within the authorized execution budget. Stop on cancellation;
+do not restart automatically or manufacture approval from silence. Checkpoint
+unfinished work so another invocation can resume, without claiming background work.
+
+Useful templates: [run state](assets/run-state.md) and [research session](assets/research-session.md).
+Use existing canonical documents instead of creating competing sources of truth.
+[Sources](references/sources.md) and [third-party notices](THIRD_PARTY_NOTICES.md)
+record provenance. Editable instructions do not enforce compliance; only a
+suitably protected external gate can independently enforce acceptance.
