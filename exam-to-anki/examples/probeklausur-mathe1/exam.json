@@ -1,0 +1,791 @@
+{
+  "schema": "exam-to-anki/v1",
+  "exam": {
+    "id": "jmu-mathe1-probeklausur-ws2526",
+    "title": "Probeklausur zur Mathematik 1 für Informatiker",
+    "short_title": "Mathe 1 Probeklausur WS 25/26",
+    "source": "Julius-Maximilians-Universität Würzburg, Institut für Mathematik. Wintersemester 2025/26, 26. Jan. 2026 (J. Ratzkin, N. de Sena Maier)",
+    "language": "de",
+    "deck": "Mathe 1::Probeklausur WS 2025-26",
+    "tags": [
+      "mathe1"
+    ],
+    "expected_cards": 34
+  },
+  "questions": [
+    {
+      "id": "1",
+      "label": "1.",
+      "points": "4 Punkte pro Teilaufgabe",
+      "context": "Beweisen oder Widerlegen Sie:",
+      "tags": [
+        "lineare_algebra"
+      ],
+      "parts": [
+        {
+          "id": "1a",
+          "label": "(a)",
+          "context": "Die folgenden Teilmengen sind Unterräume:",
+          "parts": [
+            {
+              "id": "1a.i",
+              "label": "i.",
+              "task": "\\(U = \\{A \\in M_{2\\times 2}(\\mathbb{R}) : \\operatorname{tr}(A) = 0\\}\\)",
+              "answer": "Wahr: \\(U\\) ist ein Unterraum.",
+              "steps": [
+                "\\(0 \\in U\\), da \\(\\operatorname{tr}(0)=0\\).",
+                "Für \\(A,B\\in U\\), \\(\\lambda\\in\\mathbb{R}\\): \\(\\operatorname{tr}(A+\\lambda B)=\\operatorname{tr}(A)+\\lambda\\,\\operatorname{tr}(B)=0\\), also \\(A+\\lambda B\\in U\\).",
+                "Kürzer: \\(U=\\ker(\\operatorname{tr})\\), und der Kern einer linearen Abbildung ist immer ein Unterraum."
+              ],
+              "key_idea": "Eine lineare homogene Bedingung beschreibt einen Kern, also einen Unterraum.",
+              "status": "verified",
+              "check": [
+                "a, b, c, d, e, f, g, h, l = sp.symbols('a b c d e f g h l')",
+                "A = sp.Matrix([[a, b], [c, -a]]); Bm = sp.Matrix([[e, f], [g, -e]])",
+                "assert (A + l * Bm).trace() == 0"
+              ]
+            },
+            {
+              "id": "1a.ii",
+              "label": "ii.",
+              "task": "\\(U = \\{p \\in \\mathbb{R}_3[x] : p(1) \\cdot p(2) = 0\\}\\)",
+              "answer": "Falsch: \\(U\\) ist kein Unterraum (nicht abgeschlossen unter Addition).",
+              "steps": [
+                "\\(p=x-1\\) und \\(q=x-2\\) liegen in \\(U\\), denn \\(p(1)=0\\) und \\(q(2)=0\\).",
+                "\\((p+q)(x)=2x-3\\), also \\((p+q)(1)\\cdot(p+q)(2)=(-1)\\cdot 1=-1\\neq 0\\).",
+                "Damit \\(p+q\\notin U\\)."
+              ],
+              "key_idea": "Die Produktbedingung ist eine Vereinigung zweier Unterräume (\\(p(1)=0\\) oder \\(p(2)=0\\)); solche Vereinigungen sind meist keine Unterräume.",
+              "status": "verified",
+              "check": [
+                "x = sp.symbols('x')",
+                "p, q = x - 1, x - 2",
+                "assert p.subs(x, 1) * p.subs(x, 2) == 0 and q.subs(x, 1) * q.subs(x, 2) == 0",
+                "s = p + q",
+                "assert s.subs(x, 1) * s.subs(x, 2) == -1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1b",
+          "label": "(b)",
+          "context": "Die folgenden Abbildungen sind linear:",
+          "parts": [
+            {
+              "id": "1b.i",
+              "label": "i.",
+              "task": "\\(L : M_{2\\times 2}(\\mathbb{R}) \\to \\mathbb{R},\\ L(A) = (\\operatorname{tr}(A))^2\\)",
+              "answer": "Falsch: \\(L\\) ist nicht linear.",
+              "steps": [
+                "\\(L(2I)=(\\operatorname{tr}(2I))^2=4^2=16\\).",
+                "\\(2\\,L(I)=2\\cdot 2^2=8\\neq 16\\), die Homogenität ist verletzt."
+              ],
+              "key_idea": "Quadrieren zerstört die Homogenität: \\(L(\\lambda A)=\\lambda^2 L(A)\\).",
+              "status": "verified",
+              "check": [
+                "I = sp.eye(2)",
+                "L = lambda A: A.trace() ** 2",
+                "assert L(2 * I) == 16 and 2 * L(I) == 8"
+              ]
+            },
+            {
+              "id": "1b.ii",
+              "label": "ii.",
+              "task": "\\(L : \\mathbb{R}^3 \\to \\mathbb{R}^3,\\ L(x, y, z) = (x + y,\\ y - z,\\ x - y + z)\\)",
+              "answer": "Wahr: \\(L\\) ist linear, denn \\(L(v)=Mv\\) mit \\(M=\\begin{pmatrix}1&1&0\\\\0&1&-1\\\\1&-1&1\\end{pmatrix}\\).",
+              "steps": [
+                "Jede Komponente ist eine Linearkombination von \\(x,y,z\\), ohne Konstante, Produkte oder Potenzen.",
+                "Also \\(L(v)=Mv\\) mit der Matrix oben, und \\(M(v+\\lambda w)=Mv+\\lambda Mw\\)."
+              ],
+              "key_idea": "Nur lineare Komponenten heißt: \\(L\\) ist eine Matrixabbildung, also linear.",
+              "status": "verified",
+              "check": [
+                "x1, y1, z1, x2, y2, z2, l = sp.symbols('x1 y1 z1 x2 y2 z2 l')",
+                "L = lambda x, y, z: sp.Matrix([x + y, y - z, x - y + z])",
+                "lhs = L(x1 + l * x2, y1 + l * y2, z1 + l * z2)",
+                "rhs = L(x1, y1, z1) + l * L(x2, y2, z2)",
+                "assert sp.simplify(lhs - rhs) == sp.zeros(3, 1)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1c",
+          "label": "(c)",
+          "context": "Für die gegebenen Vektorräume \\(V\\) und \\(W\\) existiert eine injektive lineare Abbildung \\(L : V \\to W\\).",
+          "parts": [
+            {
+              "id": "1c.i",
+              "label": "i.",
+              "task": "\\(V = \\mathbb{R}^6,\\ W = M_{2\\times 4}(\\mathbb{R})\\)",
+              "answer": "Wahr: Es gibt eine injektive lineare Abbildung, da \\(\\dim V=6\\le 8=\\dim W\\).",
+              "steps": [
+                "\\(\\dim \\mathbb{R}^6=6\\) und \\(\\dim M_{2\\times4}(\\mathbb{R})=8\\).",
+                "Bilde die Standardbasis \\(e_1,\\dots,e_6\\) auf sechs verschiedene Standardmatrizen \\(E^{i,j}\\) ab und setze linear fort.",
+                "Die Bilder einer Basis sind linear unabhängig, also \\(\\ker L=\\{0\\}\\) und \\(L\\) ist injektiv."
+              ],
+              "key_idea": "Eine injektive lineare Abbildung \\(V\\to W\\) existiert genau dann, wenn \\(\\dim V\\le\\dim W\\).",
+              "status": "verified"
+            },
+            {
+              "id": "1c.ii",
+              "label": "ii.",
+              "task": "\\(V = \\mathbb{R}_4[x],\\ W = M_{2\\times 2}(\\mathbb{R})\\)",
+              "answer": "Falsch: Es gibt keine injektive lineare Abbildung, da \\(\\dim V=5>4=\\dim W\\).",
+              "steps": [
+                "\\(\\mathbb{R}_4[x]\\) (Polynome vom Grad \\(\\le 4\\)) hat die Basis \\(1,x,x^2,x^3,x^4\\), also \\(\\dim V=5\\); \\(\\dim W=4\\).",
+                "Dimensionsformel: \\(\\dim\\ker L=\\dim V-\\dim\\operatorname{Bild}\\,L\\ge 5-4=1\\).",
+                "Also \\(\\ker L\\neq\\{0\\}\\), und \\(L\\) ist nicht injektiv.",
+                "Konvention: Hier ist \\(\\mathbb{R}_n[x]\\) der Raum der Polynome vom Grad \\(\\le n\\), wie bei \\(\\mathbb{R}_3[x]\\) in (a). Definiert die Vorlesung \\(\\mathbb{R}_n[x]\\) als Grad \\(< n\\), dann ist \\(\\dim V=4=\\dim W\\), und die Aussage ist wahr (es gibt einen Isomorphismus)."
+              ],
+              "key_idea": "Dimensionsformel: Ist \\(\\dim V>\\dim W\\), hat jede lineare Abbildung \\(V\\to W\\) einen nichttrivialen Kern.",
+              "status": "verified"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "label": "2.",
+      "points": "4 Punkte pro Teilaufgabe",
+      "context": "Bestimmen Sie alle ganzzahligen Lösungen \\((x, y)\\) der Gleichungen",
+      "tags": [
+        "zahlentheorie"
+      ],
+      "parts": [
+        {
+          "id": "2a",
+          "label": "(a)",
+          "task": "\\(45x + 24y = 6\\)",
+          "answer": "\\((x,y)=(-2+8t,\\ 4-15t)\\) mit \\(t\\in\\mathbb{Z}\\).",
+          "result": "\\(\\operatorname{ggT}(45,24)=3\\)",
+          "steps": [
+            "Euklid: \\(45=1\\cdot24+21\\), \\(24=1\\cdot21+3\\), \\(21=7\\cdot3\\), also \\(\\operatorname{ggT}(45,24)=3\\). Wegen \\(3\\mid 6\\) ist die Gleichung lösbar.",
+            "Rückwärts einsetzen: \\(3=24-21=24-(45-24)=2\\cdot24-45\\), also \\(45\\cdot(-1)+24\\cdot2=3\\).",
+            "Mal 2: \\(45\\cdot(-2)+24\\cdot4=6\\), eine spezielle Lösung ist \\((-2,4)\\).",
+            "Homogene Gleichung \\(45x+24y=0\\iff 15x+8y=0\\): \\((x,y)=t\\,(8,-15)\\).",
+            "Allgemein: \\(x=-2+8t,\\ y=4-15t,\\ t\\in\\mathbb{Z}\\)."
+          ],
+          "key_idea": "\\(ax+by=c\\) ist ganzzahlig lösbar genau dann, wenn \\(d=\\operatorname{ggT}(a,b)\\mid c\\); alle Lösungen sind spezielle Lösung plus \\(t\\,(b/d,\\,-a/d)\\).",
+          "status": "verified",
+          "check": [
+            "assert gcd(45, 24) == 3",
+            "sols = {(x, y) for x in range(-60, 61) for y in range(-120, 121) if 45 * x + 24 * y == 6}",
+            "param = {(-2 + 8 * t, 4 - 15 * t) for t in range(-20, 21)}",
+            "assert sols == {p for p in param if -60 <= p[0] <= 60 and -120 <= p[1] <= 120}"
+          ]
+        },
+        {
+          "id": "2b",
+          "label": "(b)",
+          "task": "\\(45x + 24y = 5\\)",
+          "uses": [
+            "2a"
+          ],
+          "answer": "Es gibt keine ganzzahligen Lösungen.",
+          "steps": [
+            "Für alle \\(x,y\\in\\mathbb{Z}\\) ist \\(45x+24y\\) ein Vielfaches von \\(\\operatorname{ggT}(45,24)=3\\).",
+            "\\(3\\nmid 5\\), also gibt es keine Lösung."
+          ],
+          "key_idea": "Die linke Seite ist immer ein Vielfaches von \\(\\operatorname{ggT}(a,b)\\).",
+          "status": "verified",
+          "check": [
+            "assert 5 % gcd(45, 24) != 0",
+            "assert not any(45 * x + 24 * y == 5 for x in range(-50, 51) for y in range(-100, 101))"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "label": "3.",
+      "points": "6 Punkte",
+      "tags": [
+        "zahlentheorie"
+      ],
+      "task": "Sei \\(n = \\sum_{k=1}^{N} a_k 10^k \\in \\mathbb{Z}\\), wobei \\(a_k \\in \\{0, 1, \\dots, 9\\}\\) für jedes \\(k = 1, \\dots, N\\) gilt. Zeigen Sie: \\(n\\) ist ein Vielfaches von \\(3\\) genau dann, wenn \\(\\sum_{k=1}^{N} a_k\\) ein Vielfaches von \\(3\\) ist.",
+      "answer": "Wegen \\(10\\equiv 1 \\pmod 3\\) gilt \\(n\\equiv\\sum_{k=1}^N a_k \\pmod 3\\). Zwei Zahlen mit gleichem Rest sind entweder beide oder beide nicht durch 3 teilbar.",
+      "steps": [
+        "\\(10\\equiv1\\pmod3\\), also \\(10^k\\equiv1^k=1\\pmod3\\) für alle \\(k\\).",
+        "\\(n=\\sum a_k10^k\\equiv\\sum a_k\\cdot1=\\sum a_k\\pmod3\\).",
+        "Gleiche Restklasse modulo 3: \\(3\\mid n \\iff 3\\mid\\sum a_k\\)."
+      ],
+      "key_idea": "Quersummenregel: \\(10\\equiv1\\) modulo 3, und Kongruenzen vertragen sich mit Summen, Produkten und Potenzen.",
+      "status": "verified",
+      "check": [
+        "for _ in range(3000):",
+        "    N = random.randint(1, 9); a = [random.randint(0, 9) for _ in range(N)]",
+        "    n = sum(a[k - 1] * 10 ** k for k in range(1, N + 1))",
+        "    assert (n % 3 == 0) == (sum(a) % 3 == 0)"
+      ]
+    },
+    {
+      "id": "4",
+      "label": "4.",
+      "points": "6 Punkte",
+      "tags": [
+        "zahlentheorie"
+      ],
+      "task": "Zeigen Sie, dass \\(n^3 - n \\equiv 0 \\mod 6\\) für jedes \\(n \\in \\mathbb{N}\\) gilt.",
+      "answer": "\\(n^3-n=(n-1)\\,n\\,(n+1)\\) ist durch 2 und durch 3 teilbar, also durch 6.",
+      "steps": [
+        "Faktorisieren: \\(n^3-n=(n-1)\\,n\\,(n+1)\\), ein Produkt dreier aufeinanderfolgender ganzer Zahlen.",
+        "Unter zwei aufeinanderfolgenden Zahlen ist eine gerade, also \\(2\\mid n^3-n\\).",
+        "Unter drei aufeinanderfolgenden Zahlen ist eine durch 3 teilbar, also \\(3\\mid n^3-n\\).",
+        "\\(\\operatorname{ggT}(2,3)=1\\), also \\(6\\mid n^3-n\\). (Alternativ: Induktion oder alle Reste \\(n \\bmod 6\\) prüfen.)"
+      ],
+      "key_idea": "In aufeinanderfolgende Zahlen faktorisieren und teilerfremde Teiler kombinieren.",
+      "status": "verified",
+      "check": [
+        "n = sp.symbols('n')",
+        "assert sp.factor(n**3 - n) == (n - 1) * n * (n + 1)",
+        "assert all((m**3 - m) % 6 == 0 for m in range(0, 5000))"
+      ]
+    },
+    {
+      "id": "5",
+      "label": "5.",
+      "points": "10 Punkte",
+      "tags": [
+        "zahlentheorie"
+      ],
+      "task": "Sei \\(a \\in \\{1, 2, \\dots, 11\\}\\) und \\(b \\in \\{1, 2, \\dots, 12\\}\\). Ermitteln Sie die Anzahl der Paare \\((a, b)\\), für welche die Gleichung \\(ax \\equiv b \\mod 12\\) eine ganzzahlige Lösung \\(x\\) besitzt.",
+      "answer": "76 Paare.",
+      "steps": [
+        "\\(ax\\equiv b \\pmod{12}\\) ist lösbar genau dann, wenn \\(d=\\operatorname{ggT}(a,12)\\mid b\\).",
+        "Für festes \\(a\\) passen genau \\(12/d\\) Werte \\(b\\in\\{1,\\dots,12\\}\\), nämlich die Vielfachen von \\(d\\).",
+        "\\(d=1\\) für \\(a=1,5,7,11\\): \\(4\\cdot12=48\\). \\(d=2\\) für \\(a=2,10\\): \\(2\\cdot6=12\\). \\(d=3\\) für \\(a=3,9\\): \\(2\\cdot4=8\\). \\(d=4\\) für \\(a=4,8\\): \\(2\\cdot3=6\\). \\(d=6\\) für \\(a=6\\): \\(2\\).",
+        "Summe: \\(48+12+8+6+2=76\\)."
+      ],
+      "key_idea": "Eine lineare Kongruenz \\(ax\\equiv b\\pmod m\\) ist lösbar genau dann, wenn \\(\\operatorname{ggT}(a,m)\\mid b\\).",
+      "status": "verified",
+      "check": [
+        "count = sum(1 for a in range(1, 12) for b in range(1, 13) if any((a * x - b) % 12 == 0 for x in range(12)))",
+        "assert count == 76"
+      ]
+    },
+    {
+      "id": "6",
+      "label": "6.",
+      "points": "4 Punkte",
+      "tags": [
+        "komplexe_zahlen"
+      ],
+      "task": "Bestimmen Sie alle Lösungen \\(z \\in \\mathbb{C}\\) der Gleichung \\((z - 3i)^5 = -32\\).",
+      "answer": "\\(z_k=3i+2\\,e^{i(2k+1)\\pi/5}\\) für \\(k=0,\\dots,4\\); darunter \\(z_2=-2+3i\\).",
+      "steps": [
+        "Setze \\(w=z-3i\\): \\(w^5=-32=32\\,e^{i\\pi}\\).",
+        "\\(|w|=\\sqrt[5]{32}=2\\), \\(\\arg w=\\frac{\\pi+2\\pi k}{5}\\) für \\(k=0,\\dots,4\\), also die Winkel \\(\\frac{\\pi}{5},\\frac{3\\pi}{5},\\pi,\\frac{7\\pi}{5},\\frac{9\\pi}{5}\\).",
+        "Zurück: \\(z_k=3i+2\\left(\\cos\\frac{(2k+1)\\pi}{5}+i\\sin\\frac{(2k+1)\\pi}{5}\\right)\\).",
+        "Für \\(k=2\\) ist \\(w=-2\\), also \\(z=-2+3i\\)."
+      ],
+      "key_idea": "Verschieben, dann \\(n\\)-te Wurzeln in Polarform: 5 Lösungen auf einem Kreis mit Radius 2 um \\(3i\\).",
+      "status": "verified",
+      "check": [
+        "z = sp.symbols('z')",
+        "sols = [3 * sp.I + 2 * sp.exp(sp.I * (2 * k + 1) * sp.pi / 5) for k in range(5)]",
+        "assert all(abs(complex(sp.N((s - 3 * sp.I) ** 5 + 32, 30))) < 1e-20 for s in sols)",
+        "assert len({complex(sp.N(s)) for s in sols}) == 5",
+        "assert sp.simplify(sols[2] - (-2 + 3 * sp.I)) == 0"
+      ]
+    },
+    {
+      "id": "7",
+      "label": "7.",
+      "tags": [
+        "matrizen"
+      ],
+      "parts": [
+        {
+          "id": "7a",
+          "label": "(a)",
+          "points": 3,
+          "task": "Sei \\[A=\\begin{pmatrix}\\lambda_1&0&\\cdots&0&0\\\\0&\\lambda_2&0&\\cdots&0\\\\\\vdots&\\vdots&\\vdots&\\vdots&\\vdots\\\\0&0&\\cdots&0&\\lambda_n\\end{pmatrix}\\in\\mathbb{R}^{n\\times n}\\] eine diagonale Matrix (d.h. die Elemente \\(a_{ij}\\) von \\(A\\) sind null für \\(i\\neq j\\)). Zeigen Sie, dass \\(A^k\\) diagonal ist für jedes \\(k\\in\\mathbb{N}\\), und berechnen Sie \\(A^k\\).",
+          "answer": "\\(A^k=\\operatorname{diag}(\\lambda_1^k,\\dots,\\lambda_n^k)\\), per Induktion über \\(k\\).",
+          "steps": [
+            "Induktionsanfang \\(k=1\\): \\(A^1=A=\\operatorname{diag}(\\lambda_1,\\dots,\\lambda_n)\\).",
+            "Schritt: \\((A^{k+1})_{ij}=(A^kA)_{ij}=\\sum_l (A^k)_{il}A_{lj}=(A^k)_{ij}\\,\\lambda_j\\), weil nur \\(l=j\\) übrig bleibt.",
+            "Nach Induktionsvoraussetzung ist \\((A^k)_{ij}=0\\) für \\(i\\ne j\\) und \\((A^k)_{ii}=\\lambda_i^k\\). Also ist \\((A^{k+1})_{ii}=\\lambda_i^{k+1}\\) und alle anderen Einträge sind 0."
+          ],
+          "key_idea": "Diagonalmatrizen multipliziert man Eintrag für Eintrag auf der Diagonalen.",
+          "status": "verified",
+          "check": [
+            "l1, l2, l3 = sp.symbols('l1 l2 l3')",
+            "A = sp.diag(l1, l2, l3)",
+            "assert all(A ** k == sp.diag(l1 ** k, l2 ** k, l3 ** k) for k in range(1, 7))"
+          ]
+        },
+        {
+          "id": "7b",
+          "label": "(b)",
+          "points": 3,
+          "task": "Zeigen Sie \\[\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}^k=\\begin{pmatrix}1&2k\\\\0&1\\end{pmatrix}.\\]",
+          "answer": "Induktion über \\(k\\): \\(\\begin{pmatrix}1&2k\\\\0&1\\end{pmatrix}\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}=\\begin{pmatrix}1&2k+2\\\\0&1\\end{pmatrix}=\\begin{pmatrix}1&2(k+1)\\\\0&1\\end{pmatrix}\\).",
+          "steps": [
+            "Induktionsanfang \\(k=1\\): klar.",
+            "Schritt: \\(M^{k+1}=M^k M\\), Induktionsvoraussetzung einsetzen und ausmultiplizieren (siehe oben)."
+          ],
+          "key_idea": "Potenzen per Induktion: \\(M^{k+1}=M^kM\\) und Induktionsvoraussetzung einsetzen. (Teil (a) hilft hier nicht, denn \\(M\\) ist nicht diagonal.)",
+          "status": "verified",
+          "check": [
+            "M = sp.Matrix([[1, 2], [0, 1]])",
+            "assert all(M ** k == sp.Matrix([[1, 2 * k], [0, 1]]) for k in range(1, 12))"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "label": "8.",
+      "tags": [
+        "lineare_algebra"
+      ],
+      "context": "Sei \\(V\\) ein Vektorraum und seien \\(u, v\\) zwei linear unabhängige Vektoren über einen reellen Vektorraum \\(V\\).",
+      "parts": [
+        {
+          "id": "8a",
+          "label": "(a)",
+          "points": 3,
+          "task": "Zeigen Sie, dass \\(4u - 3v\\) und \\(2u + 5v\\) auch linear unabhängig sind.",
+          "answer": "Aus \\(\\alpha(4u-3v)+\\beta(2u+5v)=0\\) folgt \\(\\alpha=\\beta=0\\), weil \\(\\det\\begin{pmatrix}4&2\\\\-3&5\\end{pmatrix}=26\\neq0\\).",
+          "steps": [
+            "Ansatz \\(\\alpha(4u-3v)+\\beta(2u+5v)=0\\), also \\((4\\alpha+2\\beta)u+(-3\\alpha+5\\beta)v=0\\).",
+            "\\(u,v\\) sind linear unabhängig, also \\(4\\alpha+2\\beta=0\\) und \\(-3\\alpha+5\\beta=0\\).",
+            "Die Koeffizientenmatrix hat Determinante \\(4\\cdot5-2\\cdot(-3)=26\\neq0\\), also ist \\(\\alpha=\\beta=0\\) die einzige Lösung."
+          ],
+          "key_idea": "Linearkombinationen von \\(u,v\\) sind linear unabhängig genau dann, wenn ihre Koeffizientenmatrix invertierbar ist.",
+          "status": "verified",
+          "check": [
+            "assert sp.Matrix([[4, 2], [-3, 5]]).det() == 26"
+          ]
+        },
+        {
+          "id": "8b",
+          "label": "(b)",
+          "points": 4,
+          "task": "Bestimmen Sie alle \\(c \\in \\mathbb{R}\\), sodass \\(3u + cv\\) und \\(2cu + v\\) linear unabhängig sind.",
+          "answer": "Alle \\(c\\in\\mathbb{R}\\setminus\\left\\{-\\tfrac{\\sqrt6}{2},\\ \\tfrac{\\sqrt6}{2}\\right\\}\\).",
+          "steps": [
+            "Ansatz \\(\\alpha(3u+cv)+\\beta(2cu+v)=0\\) liefert \\(3\\alpha+2c\\beta=0\\) und \\(c\\alpha+\\beta=0\\).",
+            "Nur die triviale Lösung gibt es genau dann, wenn \\(\\det\\begin{pmatrix}3&2c\\\\c&1\\end{pmatrix}=3-2c^2\\neq0\\).",
+            "\\(3-2c^2=0\\iff c=\\pm\\sqrt{3/2}=\\pm\\tfrac{\\sqrt6}{2}\\)."
+          ],
+          "key_idea": "Linear unabhängig genau dann, wenn die Determinante der Koeffizientenmatrix nicht null ist; die Nullstellen in \\(c\\) ausschließen.",
+          "status": "verified",
+          "check": [
+            "c = sp.symbols('c', real=True)",
+            "roots = sp.solve(sp.Matrix([[3, 2 * c], [c, 1]]).det(), c)",
+            "assert set(roots) == {sp.sqrt(6) / 2, -sp.sqrt(6) / 2}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "label": "9.",
+      "tags": [
+        "lineare_algebra"
+      ],
+      "context": "Aus der Vorlesung ist bekannt, dass \\[\\operatorname{tr}: M_{n\\times n}(\\mathbb{R})\\to\\mathbb{R},\\quad A\\mapsto\\sum_{i=1}^n A[i,i],\\] mit \\(A[i,i]\\) als \\(i\\)-ter Diagonaleintrag von \\(A\\), eine lineare Abbildung ist.",
+      "parts": [
+        {
+          "id": "9a",
+          "label": "(a)",
+          "points": 3,
+          "task": "Bestimmen Sie die Dimension von \\(\\ker(\\operatorname{tr})\\) und \\(\\operatorname{Bild}(\\operatorname{tr})\\).",
+          "answer": "\\(\\dim\\operatorname{Bild}(\\operatorname{tr})=1\\) und \\(\\dim\\ker(\\operatorname{tr})=n^2-1\\).",
+          "result": "\\(\\dim\\operatorname{Bild}(\\operatorname{tr})=1\\) und \\(\\dim\\ker(\\operatorname{tr})=n^2-1\\)",
+          "steps": [
+            "\\(\\operatorname{tr}(E^{1,1})=1\\neq0\\), also \\(\\operatorname{Bild}(\\operatorname{tr})\\neq\\{0\\}\\). Als Unterraum von \\(\\mathbb{R}\\) ist dann \\(\\operatorname{Bild}(\\operatorname{tr})=\\mathbb{R}\\), mit Dimension 1.",
+            "Dimensionsformel: \\(\\dim\\ker(\\operatorname{tr})=\\dim M_{n\\times n}(\\mathbb{R})-\\dim\\operatorname{Bild}(\\operatorname{tr})=n^2-1\\)."
+          ],
+          "key_idea": "Bild über ein Urbild mit Spur ungleich 0, Kern über die Dimensionsformel.",
+          "status": "verified",
+          "check": [
+            "for n in range(1, 6):",
+            "    T = sp.Matrix([[1 if (k // n) == (k % n) else 0 for k in range(n * n)]])",
+            "    assert T.rank() == 1 and n * n - T.rank() == n * n - 1"
+          ]
+        },
+        {
+          "id": "9b",
+          "label": "(b)",
+          "points": 3,
+          "task": "Geben Sie für den Fall \\(n = 2\\) eine Basis von \\(\\ker(\\operatorname{tr})\\) an.",
+          "uses": [
+            "9a"
+          ],
+          "answer": "\\(\\left\\{\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix},\\ \\begin{pmatrix}0&0\\\\1&0\\end{pmatrix},\\ \\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}\\right\\}\\)",
+          "steps": [
+            "Mit dem Ergebnis aus (a) ist \\(\\dim\\ker(\\operatorname{tr})=2^2-1=3\\); gesucht sind also 3 linear unabhängige Matrizen mit Spur 0.",
+            "\\(A=\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}\\in\\ker(\\operatorname{tr})\\iff d=-a\\), also \\(A=a\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}+b\\,E^{1,2}+c\\,E^{2,1}\\).",
+            "Die drei Matrizen erzeugen den Kern und sind linear unabhängig (verschiedene Positionen), also eine Basis."
+          ],
+          "key_idea": "Bedingung auflösen (\\(d=-a\\)), freie Parameter ablesen, Dimension mit (a) gegenprüfen.",
+          "status": "verified",
+          "check": [
+            "B3 = [sp.Matrix([[0, 1], [0, 0]]), sp.Matrix([[0, 0], [1, 0]]), sp.Matrix([[1, 0], [0, -1]])]",
+            "assert all(b.trace() == 0 for b in B3)",
+            "assert sp.Matrix([list(b) for b in B3]).rank() == 3"
+          ]
+        },
+        {
+          "id": "9c",
+          "label": "(c)",
+          "points": 2,
+          "task": "Ist die gegebene lineare Abbildung surjektiv? Ist die Abbildung injektiv? Begründen Sie Ihre Antwort.",
+          "uses": [
+            "9a"
+          ],
+          "answer": "Surjektiv: ja. Injektiv: nein für \\(n\\ge2\\). (Nur für \\(n=1\\) ist \\(\\operatorname{tr}=\\mathrm{id}_{\\mathbb{R}}\\) bijektiv.)",
+          "steps": [
+            "Surjektiv: \\(\\dim\\operatorname{Bild}=1=\\dim\\mathbb{R}\\), also \\(\\operatorname{Bild}=\\mathbb{R}\\). Konkret ist \\(\\operatorname{tr}(t\\,E^{1,1})=t\\) für jedes \\(t\\).",
+            "Injektiv genau dann, wenn \\(\\ker=\\{0\\}\\). Für \\(n\\ge2\\) ist \\(\\dim\\ker=n^2-1\\ge3>0\\), z. B. \\(E^{1,2}\\neq0\\) mit \\(\\operatorname{tr}(E^{1,2})=0\\). Also nicht injektiv."
+          ],
+          "key_idea": "Surjektiv heißt Bild gleich Zielraum, injektiv heißt Kern trivial.",
+          "status": "verified"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "label": "10.",
+      "points": "2 Punkte pro Teilaufgabe",
+      "tags": [
+        "determinanten"
+      ],
+      "context": "Seien \\(A, B \\in M_{3\\times 3}(\\mathbb{R})\\) mit \\(\\det(A) = 2\\) und \\(\\det(B) = -3\\). Berechnen Sie",
+      "parts": [
+        {
+          "id": "10a",
+          "label": "(a)",
+          "task": "\\(\\det(3A)\\)",
+          "answer": "\\(\\det(3A)=54\\)",
+          "result": "\\(\\det(3A)=54\\)",
+          "steps": [
+            "\\(\\det(\\lambda A)=\\lambda^n\\det(A)\\) mit \\(n=3\\): \\(3^3\\cdot 2=54\\)."
+          ],
+          "key_idea": "Ein Skalar kommt mit der \\(n\\)-ten Potenz aus der Determinante heraus.",
+          "status": "verified",
+          "check": [
+            "A = sp.diag(2, 1, 1)",
+            "assert A.det() == 2 and (3 * A).det() == 54"
+          ]
+        },
+        {
+          "id": "10b",
+          "label": "(b)",
+          "task": "\\(\\det(A \\cdot B)\\)",
+          "answer": "\\(\\det(AB)=-6\\)",
+          "steps": [
+            "Multiplikativität: \\(\\det(AB)=\\det A\\cdot\\det B=2\\cdot(-3)=-6\\)."
+          ],
+          "key_idea": "Die Determinante ist multiplikativ.",
+          "status": "verified",
+          "check": [
+            "A = sp.diag(2, 1, 1); B = sp.diag(-3, 1, 1)",
+            "assert (A * B).det() == -6"
+          ]
+        },
+        {
+          "id": "10c",
+          "label": "(c)",
+          "task": "\\(\\det(4B^{-1} \\cdot A)\\)",
+          "answer": "\\(\\det(4B^{-1}A)=-\\tfrac{128}{3}\\)",
+          "steps": [
+            "\\(\\det(4B^{-1}A)=4^3\\det(B^{-1})\\det(A)\\).",
+            "\\(\\det(B^{-1})=\\frac{1}{\\det B}=-\\frac13\\).",
+            "\\(64\\cdot\\left(-\\tfrac13\\right)\\cdot2=-\\tfrac{128}{3}\\)."
+          ],
+          "key_idea": "Skalar mit \\(n\\)-ter Potenz herausziehen, Inverse ergibt den Kehrwert, dann multiplizieren.",
+          "status": "verified",
+          "check": [
+            "A = sp.Matrix([[2, 1, 0], [0, 1, 3], [0, 0, 1]]); B = sp.Matrix([[1, 4, 0], [0, -3, 2], [0, 0, 1]])",
+            "assert A.det() == 2 and B.det() == -3",
+            "assert (4 * B.inv() * A).det() == sp.Rational(-128, 3)"
+          ]
+        },
+        {
+          "id": "10d",
+          "label": "(d)",
+          "task": "\\(\\det((3A)^{-1})\\)",
+          "uses": [
+            "10a"
+          ],
+          "answer": "\\(\\det((3A)^{-1})=\\tfrac{1}{54}\\)",
+          "steps": [
+            "\\(\\det(M^{-1})=1/\\det(M)\\).",
+            "Mit dem Ergebnis aus (a): \\(\\det((3A)^{-1})=\\frac{1}{54}\\)."
+          ],
+          "key_idea": "Die Determinante der Inversen ist der Kehrwert.",
+          "status": "verified",
+          "check": [
+            "A = sp.diag(2, 1, 1)",
+            "assert ((3 * A).inv()).det() == sp.Rational(1, 54)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "label": "11.",
+      "tags": [
+        "eigenwerte"
+      ],
+      "context": "Sei \\[L: M_{2\\times2}(\\mathbb{R})\\to M_{2\\times2}(\\mathbb{R}),\\qquad L(A)=3\\,\\operatorname{tr}(A)\\,\\mathbb{1}_2-2A^T.\\] Sie dürfen ohne Beweis die folgende Basis von \\(M_{2\\times2}(\\mathbb{R})\\) verwenden: \\[\\mathcal{B}=\\left\\{E^{1,1}=\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix},\\ E^{1,2}=\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix},\\ E^{2,1}=\\begin{pmatrix}0&0\\\\1&0\\end{pmatrix},\\ E^{2,2}=\\begin{pmatrix}0&0\\\\0&1\\end{pmatrix}\\right\\}.\\]",
+      "parts": [
+        {
+          "id": "11a",
+          "label": "(a)",
+          "points": 4,
+          "task": "Berechnen Sie die Darstellungsmatrix von \\(L\\) bezüglich der Basis \\(\\mathcal{B}\\).",
+          "answer": "\\([L]_{\\mathcal{B}}=\\begin{pmatrix}1&0&0&3\\\\0&0&-2&0\\\\0&-2&0&0\\\\3&0&0&1\\end{pmatrix}\\)",
+          "result": "\\([L]_{\\mathcal{B}}=\\begin{pmatrix}1&0&0&3\\\\0&0&-2&0\\\\0&-2&0&0\\\\3&0&0&1\\end{pmatrix}\\)",
+          "steps": [
+            "\\(L(E^{1,1})=3\\cdot\\mathbb{1}_2-2E^{1,1}=\\begin{pmatrix}1&0\\\\0&3\\end{pmatrix}\\), Spalte \\((1,0,0,3)^T\\).",
+            "\\(L(E^{1,2})=-2\\,(E^{1,2})^T=-2E^{2,1}\\), Spalte \\((0,0,-2,0)^T\\).",
+            "\\(L(E^{2,1})=-2E^{1,2}\\), Spalte \\((0,-2,0,0)^T\\).",
+            "\\(L(E^{2,2})=3\\cdot\\mathbb{1}_2-2E^{2,2}=\\begin{pmatrix}3&0\\\\0&1\\end{pmatrix}\\), Spalte \\((3,0,0,1)^T\\)."
+          ],
+          "key_idea": "Spalte \\(j\\) ist der Koordinatenvektor von \\(L(b_j)\\); Transponieren vertauscht \\(E^{1,2}\\) und \\(E^{2,1}\\).",
+          "status": "verified",
+          "check": [
+            "E = lambda i, j: sp.Matrix(2, 2, lambda r, s: 1 if (r, s) == (i, j) else 0)",
+            "L = lambda A: 3 * A.trace() * sp.eye(2) - 2 * A.T",
+            "basis = [E(0, 0), E(0, 1), E(1, 0), E(1, 1)]",
+            "M = sp.Matrix.hstack(*[sp.Matrix(list(L(b))) for b in basis])",
+            "assert M == sp.Matrix([[1, 0, 0, 3], [0, 0, -2, 0], [0, -2, 0, 0], [3, 0, 0, 1]])"
+          ]
+        },
+        {
+          "id": "11b",
+          "label": "(b)",
+          "points": 4,
+          "task": "Berechnen Sie \\(\\det(L)\\).",
+          "uses": [
+            "11a"
+          ],
+          "answer": "\\(\\det(L)=32\\)",
+          "steps": [
+            "\\(\\det L=\\det[L]_{\\mathcal{B}}\\) (das hängt nicht von der Basis ab).",
+            "Ordne die Basis um zu \\(E^{1,1},E^{2,2},E^{1,2},E^{2,1}\\) (gleiche Permutation für Zeilen und Spalten, det bleibt gleich). Dann zerfällt die Matrix in die Blöcke \\(\\begin{pmatrix}1&3\\\\3&1\\end{pmatrix}\\) und \\(\\begin{pmatrix}0&-2\\\\-2&0\\end{pmatrix}\\).",
+            "\\(\\det L=(1-9)\\cdot(0-4)=(-8)(-4)=32\\)."
+          ],
+          "key_idea": "Determinante einer linearen Abbildung ist die Determinante irgendeiner Darstellungsmatrix; Blockstruktur ausnutzen.",
+          "status": "verified",
+          "check": [
+            "E = lambda i, j: sp.Matrix(2, 2, lambda r, s: 1 if (r, s) == (i, j) else 0)",
+            "L = lambda A: 3 * A.trace() * sp.eye(2) - 2 * A.T",
+            "basis = [E(0, 0), E(0, 1), E(1, 0), E(1, 1)]",
+            "M = sp.Matrix.hstack(*[sp.Matrix(list(L(b))) for b in basis])",
+            "assert M.det() == 32"
+          ]
+        },
+        {
+          "id": "11c",
+          "label": "(c)",
+          "points": 6,
+          "task": "Bestimmen Sie alle Eigenwerte von \\(L\\).",
+          "uses": [
+            "11a"
+          ],
+          "answer": "Eigenwerte \\(4\\), \\(2\\) und \\(-2\\); dabei hat \\(-2\\) die algebraische Vielfachheit 2.",
+          "result": "Eigenwerte \\(4\\), \\(2\\) und \\(-2\\) (algebraisch doppelt)",
+          "steps": [
+            "\\(\\chi_L(\\lambda)=\\det([L]_{\\mathcal{B}}-\\lambda I)\\) zerfällt in die Blöcke: \\(\\begin{vmatrix}1-\\lambda&3\\\\3&1-\\lambda\\end{vmatrix}\\cdot\\begin{vmatrix}-\\lambda&-2\\\\-2&-\\lambda\\end{vmatrix}\\).",
+            "\\(=\\left((1-\\lambda)^2-9\\right)(\\lambda^2-4)=(\\lambda-4)(\\lambda+2)(\\lambda-2)(\\lambda+2)\\).",
+            "Probe: \\(4\\cdot2\\cdot(-2)\\cdot(-2)=32=\\det L\\)."
+          ],
+          "key_idea": "Charakteristisches Polynom der Darstellungsmatrix; die Blockstruktur macht die Faktorisierung leicht.",
+          "status": "verified",
+          "check": [
+            "E = lambda i, j: sp.Matrix(2, 2, lambda r, s: 1 if (r, s) == (i, j) else 0)",
+            "L = lambda A: 3 * A.trace() * sp.eye(2) - 2 * A.T",
+            "basis = [E(0, 0), E(0, 1), E(1, 0), E(1, 1)]",
+            "M = sp.Matrix.hstack(*[sp.Matrix(list(L(b))) for b in basis])",
+            "assert M.eigenvals() == {4: 1, 2: 1, -2: 2}"
+          ]
+        },
+        {
+          "id": "11d",
+          "label": "(d)",
+          "points": 6,
+          "task": "Bestimmen Sie alle Eigenräume von \\(L\\).",
+          "uses": [
+            "11a",
+            "11c"
+          ],
+          "answer": "\\(E_4=\\operatorname{span}\\{\\mathbb{1}_2\\}\\), \\(E_2=\\operatorname{span}\\left\\{\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}\\right\\}\\), \\(E_{-2}=\\operatorname{span}\\left\\{\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix},\\ \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}\\right\\}\\)",
+          "steps": [
+            "\\(\\lambda=4\\): \\(([L]_{\\mathcal{B}}-4I)x=0\\) gibt \\(x=(1,0,0,1)^T\\), also \\(\\mathbb{1}_2\\). Probe: \\(L(\\mathbb{1}_2)=6\\cdot\\mathbb{1}_2-2\\cdot\\mathbb{1}_2=4\\cdot\\mathbb{1}_2\\).",
+            "\\(\\lambda=2\\): \\(x=(0,1,-1,0)^T\\), also \\(E^{1,2}-E^{2,1}\\). Schiefsymmetrisch: Spur 0 und \\(L(A)=-2A^T=2A\\).",
+            "\\(\\lambda=-2\\): \\(x=(1,0,0,-1)^T\\) und \\((0,1,1,0)^T\\). Symmetrisch mit Spur 0: \\(L(A)=-2A^T=-2A\\)."
+          ],
+          "key_idea": "\\(M_{2\\times2}\\) zerfällt in Vielfache von \\(\\mathbb{1}_2\\), spurlose symmetrische und schiefsymmetrische Matrizen; auf jedem Teil wirkt \\(L\\) als Skalar.",
+          "status": "verified",
+          "check": [
+            "E = lambda i, j: sp.Matrix(2, 2, lambda r, s: 1 if (r, s) == (i, j) else 0)",
+            "L = lambda A: 3 * A.trace() * sp.eye(2) - 2 * A.T",
+            "basis = [E(0, 0), E(0, 1), E(1, 0), E(1, 1)]",
+            "M = sp.Matrix.hstack(*[sp.Matrix(list(L(b))) for b in basis])",
+            "vec = lambda A: sp.Matrix(list(A))",
+            "pairs = [(4, [sp.eye(2)]), (2, [sp.Matrix([[0, 1], [-1, 0]])]), (-2, [sp.Matrix([[1, 0], [0, -1]]), sp.Matrix([[0, 1], [1, 0]])])]",
+            "for lam, vs in pairs:",
+            "    assert all(M * vec(v) == lam * vec(v) for v in vs)",
+            "    assert (M - lam * sp.eye(4)).nullspace().__len__() == len(vs)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "label": "12.",
+      "tags": [
+        "skalarprodukt"
+      ],
+      "context": "Sei \\(\\langle\\,,\\rangle\\) das euklidische Skalarprodukt auf \\(\\mathbb{R}^3\\) und seien \\(u = (2, -1, 0)\\) und \\(v = (-2, 2, 3)\\).",
+      "parts": [
+        {
+          "id": "12a",
+          "label": "(a)",
+          "points": 2,
+          "task": "Berechnen Sie \\(\\cos\\theta\\), wobei \\(\\theta\\) der Winkel zwischen \\(u\\) und \\(v\\) ist.",
+          "answer": "\\(\\cos\\theta=-\\frac{6}{\\sqrt{85}}=-\\frac{6\\sqrt{85}}{85}\\approx-0{,}651\\)",
+          "result": "\\(\\langle u,v\\rangle=-6\\), \\(\\|u\\|^2=5\\), \\(\\|v\\|^2=17\\)",
+          "steps": [
+            "\\(\\langle u,v\\rangle=-4-2+0=-6\\).",
+            "\\(\\|u\\|=\\sqrt{5}\\), \\(\\|v\\|=\\sqrt{4+4+9}=\\sqrt{17}\\).",
+            "\\(\\cos\\theta=\\frac{-6}{\\sqrt5\\,\\sqrt{17}}=-\\frac{6}{\\sqrt{85}}\\)."
+          ],
+          "key_idea": "\\(\\cos\\theta=\\frac{\\langle u,v\\rangle}{\\|u\\|\\,\\|v\\|}\\).",
+          "status": "verified",
+          "check": [
+            "u = sp.Matrix([2, -1, 0]); v = sp.Matrix([-2, 2, 3])",
+            "assert u.dot(v) == -6 and u.dot(u) == 5 and v.dot(v) == 17",
+            "assert sp.simplify(u.dot(v) / (u.norm() * v.norm()) + 6 / sp.sqrt(85)) == 0"
+          ]
+        },
+        {
+          "id": "12b",
+          "label": "(b)",
+          "points": 4,
+          "task": "Bestimmen Sie \\((\\operatorname{span}\\{u, v\\})^\\perp\\).",
+          "answer": "\\((\\operatorname{span}\\{u,v\\})^\\perp=\\operatorname{span}\\{(3,6,-2)\\}\\)",
+          "steps": [
+            "Gesucht sind alle \\(w\\) mit \\(\\langle w,u\\rangle=\\langle w,v\\rangle=0\\). Da \\(u,v\\) linear unabhängig sind, hat der Lösungsraum Dimension \\(3-2=1\\).",
+            "Kreuzprodukt: \\(u\\times v=(-3,-6,2)\\).",
+            "Probe: \\(\\langle(3,6,-2),u\\rangle=6-6+0=0\\) und \\(\\langle(3,6,-2),v\\rangle=-6+12-6=0\\)."
+          ],
+          "key_idea": "Im \\(\\mathbb{R}^3\\) spannt \\(u\\times v\\) das orthogonale Komplement von \\(\\operatorname{span}\\{u,v\\}\\) auf (oder LGS lösen).",
+          "status": "verified",
+          "check": [
+            "u = sp.Matrix([2, -1, 0]); v = sp.Matrix([-2, 2, 3])",
+            "N = sp.Matrix([u.T, v.T]).nullspace()",
+            "assert len(N) == 1",
+            "w = sp.Matrix([3, 6, -2])",
+            "assert w.dot(u) == 0 and w.dot(v) == 0"
+          ]
+        },
+        {
+          "id": "12c",
+          "label": "(c)",
+          "points": 2,
+          "task": "Berechnen Sie die Vektorprojektion \\(\\operatorname{Proj}_u v\\).",
+          "uses": [
+            "12a"
+          ],
+          "answer": "\\(\\operatorname{Proj}_u v=\\left(-\\tfrac{12}{5},\\ \\tfrac{6}{5},\\ 0\\right)\\)",
+          "steps": [
+            "\\(\\operatorname{Proj}_u v=\\frac{\\langle v,u\\rangle}{\\langle u,u\\rangle}\\,u\\).",
+            "Mit den Werten aus (a): \\(\\frac{-6}{5}(2,-1,0)=\\left(-\\frac{12}{5},\\frac{6}{5},0\\right)\\)."
+          ],
+          "key_idea": "Projektion auf \\(u\\): Skalarprodukt durch Normquadrat, mal \\(u\\).",
+          "status": "verified",
+          "check": [
+            "u = sp.Matrix([2, -1, 0]); v = sp.Matrix([-2, 2, 3])",
+            "assert (u.dot(v) / u.dot(u)) * u == sp.Matrix([sp.Rational(-12, 5), sp.Rational(6, 5), 0])"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "label": "13.",
+      "tags": [
+        "gruppen"
+      ],
+      "context": "Sei \\(n \\in \\mathbb{N}\\) und \\(U \\in M_{n\\times n}(\\mathbb{R})\\) invertierbar. Wir definieren die Menge \\[G_U = \\{UAU^{-1} : A \\in M_{n\\times n}(\\mathbb{R})\\}.\\]",
+      "parts": [
+        {
+          "id": "13a",
+          "label": "(a)",
+          "points": 3,
+          "task": "Zeigen Sie \\(\\left(UAU^{-1}\\right)^n = UA^nU^{-1}\\) für alle \\(n \\in \\mathbb{N}\\) (Tipp: Induktion).",
+          "answer": "Induktion: \\((UAU^{-1})^{n+1}=(UA^nU^{-1})(UAU^{-1})=UA^n(U^{-1}U)AU^{-1}=UA^{n+1}U^{-1}\\).",
+          "steps": [
+            "Induktionsanfang \\(n=1\\): \\((UAU^{-1})^1=UA^1U^{-1}\\).",
+            "Schritt: Induktionsvoraussetzung für \\((UAU^{-1})^n\\) einsetzen; das innere \\(U^{-1}U=I\\) fällt weg."
+          ],
+          "key_idea": "Bei Konjugation hebt sich jedes innere \\(U^{-1}U\\) auf.",
+          "status": "verified",
+          "check": [
+            "U = sp.Matrix([[2, 1], [1, 1]]); A = sp.Matrix([[1, 3], [-2, 5]])",
+            "assert all((U * A * U.inv()) ** k == U * A ** k * U.inv() for k in range(1, 8))"
+          ]
+        },
+        {
+          "id": "13b",
+          "label": "(b)",
+          "points": 2,
+          "task": "Zeigen Sie \\(\\det(UAU^{-1}) = \\det(A)\\).",
+          "answer": "\\(\\det(UAU^{-1})=\\det U\\cdot\\det A\\cdot\\det U^{-1}=\\det U\\cdot\\det A\\cdot\\frac{1}{\\det U}=\\det A\\).",
+          "result": "\\(\\det(UAU^{-1})=\\det(A)\\) für alle \\(A\\in M_{n\\times n}(\\mathbb{R})\\)",
+          "steps": [
+            "Multiplikativität der Determinante.",
+            "\\(\\det(U^{-1})=1/\\det U\\), und \\(\\det U\\neq0\\), weil \\(U\\) invertierbar ist."
+          ],
+          "key_idea": "\\(\\det\\) ist multiplikativ, und reelle Zahlen kommutieren, also kürzt sich \\(\\det U\\) heraus.",
+          "status": "verified",
+          "check": [
+            "a, b, c, d = sp.symbols('a b c d')",
+            "U = sp.Matrix([[2, 1], [1, 1]]); A = sp.Matrix([[a, b], [c, d]])",
+            "assert sp.simplify((U * A * U.inv()).det() - A.det()) == 0"
+          ]
+        },
+        {
+          "id": "13c",
+          "label": "(c)",
+          "points": 2,
+          "task": "Begründen Sie, wieso \\(G_U\\) keine Gruppe bezüglich der Matrizenmultiplikation definiert.",
+          "answer": "Die Nullmatrix \\(0=U\\,0\\,U^{-1}\\) liegt in \\(G_U\\), hat aber kein Inverses. (Tatsächlich ist \\(G_U=M_{n\\times n}(\\mathbb{R})\\).)",
+          "steps": [
+            "Jede Matrix \\(B\\) liegt in \\(G_U\\): \\(B=U(U^{-1}BU)U^{-1}\\). Also ist \\(G_U=M_{n\\times n}(\\mathbb{R})\\).",
+            "Insbesondere liegt die Nullmatrix in \\(G_U\\), aber \\(0\\cdot X=0\\neq I\\) für alle \\(X\\), also fehlt ein inverses Element."
+          ],
+          "key_idea": "Für eine Gruppe braucht jedes Element ein Inverses; singuläre Matrizen haben keins.",
+          "status": "verified"
+        },
+        {
+          "id": "13d",
+          "label": "(d)",
+          "points": 5,
+          "task": "Wir definieren die Teilmenge \\[G'_U = \\{g \\in G_U : \\det(g) \\neq 0\\}.\\] Zeigen Sie, dass \\(G'_U\\) eine Gruppe bezüglich der Matrizenmultiplikation definiert.",
+          "uses": [
+            "13b"
+          ],
+          "answer": "Abgeschlossenheit, Assoziativität, neutrales Element \\(I=UIU^{-1}\\) und Inverse \\(g^{-1}=UA^{-1}U^{-1}\\) gelten, also ist \\(G'_U\\) eine Gruppe.",
+          "steps": [
+            "Abgeschlossen: Für \\(g=UAU^{-1}\\) und \\(h=UBU^{-1}\\) ist \\(gh=U(AB)U^{-1}\\in G_U\\) und \\(\\det(gh)=\\det g\\cdot\\det h\\neq0\\).",
+            "Assoziativ: Die Matrizenmultiplikation ist assoziativ.",
+            "Neutrales Element: \\(I=UIU^{-1}\\in G_U\\) mit \\(\\det I=1\\neq0\\).",
+            "Inverse: Nach (b) ist \\(\\det A=\\det g\\neq0\\), also existiert \\(A^{-1}\\), und \\(g^{-1}=UA^{-1}U^{-1}\\in G_U\\) mit \\(\\det g^{-1}=1/\\det g\\neq0\\)."
+          ],
+          "key_idea": "Gruppenaxiome einzeln prüfen; (b) liefert, dass \\(A\\) invertierbar ist, sobald \\(g\\) es ist.",
+          "status": "verified"
+        }
+      ]
+    }
+  ]
+}

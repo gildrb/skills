@@ -28,3 +28,14 @@ not an executable workflow engine or an independently protected verifier.
 
 [Sources and adaptation details](bend/references/sources.md).
 [Evaluation scenarios](evals/bend.md), not claimed live test results.
+
+## Exam to Anki
+
+[Read the skill](exam-to-anki/SKILL.md) · [README](exam-to-anki/README.md)
+
+Turns a past exam into verified Anki cards: one card per sub-question, where later
+parts like (b) and (c) carry the results of earlier parts on their front so every
+card can be solved on its own. The agent solves and verifies the exam and writes one
+`exam.json`; standard-library scripts validate dependencies, leaks and MathJax, run
+the verification code, and build an importable `.apkg`. Ships with a worked example
+(a German Mathe 1 practice exam, 34 cards) and tests.
