@@ -1,0 +1,62 @@
+{
+  "skill_name": "exam-to-anki",
+  "note": "Evaluation prompts and what a good result contains. These are scenarios to run, not recorded results. Files named here are supplied by the evaluator; the Probeklausur PDF is not committed, its full text is in examples/probeklausur-mathe1/exam.json.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Hier ist unsere Probeklausur Mathe 1. Mach mir bitte Anki-Karten daraus, eine pro Teilaufgabe, und wenn b) auf a) aufbaut, soll das Ergebnis von a) auf der Karte stehen.",
+      "files": ["Probeklausur.pdf (Mathematik 1 für Informatiker, JMU Würzburg, WS 2025/26)"],
+      "expected_output": "An .apkg deck with 34 cards (expected_cards 34), in German, with the exam's wording verbatim. Carried results: 2b gets ggT(45,24)=3 from 2a; 9b and 9c get the dimensions from 9a; 10d gets det(3A)=54; 11b and 11c get the matrix from 11a; 11d gets the matrix and the eigenvalues; 12c gets <u,v>=-6 and ||u||^2=5; 13d gets det(UAU^-1)=det(A). 8b and 7b carry nothing. Answers: 2a (x,y)=(-2+8t, 4-15t); 5: 76 pairs; 6: z=3i+2e^{i(2k+1)pi/5}; 8b: c != ±sqrt(6)/2; 10c: -128/3; 11b: 32; 11c: 4, 2, -2 (double); 12b: span{(3,6,-2)}; 12c: (-12/5, 6/5, 0). check_math.py passes for every computational part, validate.py reports no errors, and the preview was looked at.",
+      "must": [
+        "Read the PDF pages as images for formulas",
+        "Write exam.json with expected_cards before building",
+        "Run check_math.py and validate.py, and fix every failure",
+        "Deliver the .apkg and list the final answers"
+      ],
+      "must_not": [
+        "Write card fronts by hand or retype a carried-over value",
+        "Carry results into 8b or 7b",
+        "Use $ for math"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Old physics midterm attached (mechanics). Turn it into flashcards for Anki. Problem 2 has parts a-d where each uses the speed from the part before.",
+      "files": ["physics-midterm.pdf: a projectile problem with parts a-d chaining v0 -> t_max -> h_max -> range, plus an unrelated problem with a free-body diagram"],
+      "expected_output": "English cards. Each of 2b-2d carries exactly the earlier values it uses (with units), not the whole chain. Numeric answers have checks that recompute them with units consistent and g as given in the exam. The free-body diagram is cropped into a PNG, listed in figures, and described in text. Values are carried in the precision the exam uses.",
+      "must": ["Carry units with numeric results", "Include the figure as media and describe it in text"],
+      "must_not": ["Round a carried value differently from its source part"]
+    },
+    {
+      "id": 3,
+      "prompt": "make anki cards from this old algorithms exam, I can't solve 4c myself so not sure what the answer is",
+      "files": ["algorithms-exam.pdf: includes a hard proof part 4c"],
+      "expected_output": "All parts carded. If 4c cannot be solved with confidence, its card has status unverified, shows the warning banner and the tag check, and the reply says so plainly. Nothing is marked verified without a passing check or a re-read proof.",
+      "must": ["Report unverified parts in the reply"],
+      "must_not": ["Claim certainty about an unverified proof"]
+    },
+    {
+      "id": 4,
+      "prompt": "Here's a photo of last year's linear algebra exam (two pages). Anki deck please.",
+      "files": ["page1.jpg", "page2.jpg: one formula partly illegible"],
+      "expected_output": "Transcribes from the images. Asks about the illegible formula if the user is present; otherwise transcribes its best reading, marks the affected parts unverified and names what could not be read.",
+      "must": ["Name the illegible part"],
+      "must_not": ["Silently guess an illegible value and mark it verified"]
+    },
+    {
+      "id": 5,
+      "prompt": "I fixed a typo in exam.json for question 3, rebuild the deck so I can reimport it.",
+      "files": ["exam.json from an earlier run"],
+      "expected_output": "Keeps exam.id and all part ids unchanged, re-runs validate, check_math and build, and explains that re-importing updates the existing cards (same GUIDs) instead of adding duplicates.",
+      "must": ["Keep ids stable"],
+      "must_not": ["Change exam.id or part ids"]
+    },
+    {
+      "id": 6,
+      "prompt": "Make me Anki cards for these 40 Spanish vocabulary words.",
+      "files": [],
+      "expected_output": "This skill does not apply (no exam, no sub-questions to solve). Simple vocabulary cards are made without the exam workflow.",
+      "must_not": ["Create an exam.json for a vocabulary list"]
+    }
+  ]
+}
